@@ -1,0 +1,16 @@
+{
+    "name": "charlyjzr/php_restapi",
+    "description": "Belajar membuat REST API/Backend PHP",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Backend\\" : "v1/"
+        }
+    },
+    "authors": [
+        {
+            "name": "CharlyJoezer",
+            "email": "charlyjoezer30@gmail.com"
+        }
+    ]
+}
