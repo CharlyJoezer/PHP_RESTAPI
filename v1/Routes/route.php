@@ -1,6 +1,8 @@
 <?php
 
 namespace Backend\Routes;
+use Backend\Controllers\ProductController;
+use Backend\Utils\Helper;
 
 class Route {
      private $path;
@@ -19,11 +21,11 @@ class Route {
      public function Route(){
           if($this->method == 'GET'){
                if($this->path == '/api/product/get'){
-                    echo 'Get Data Product';
+                    Helper::Controller(new ProductController, 'getAllDataProduct');
                }
           }else if($this->method == 'POST'){
                if($this->path == '/api/product/insert'){
-                    echo 'Insert Data Product';
+                    Helper::Controller(new ProductController, 'insert');
                }
           }else{
                $response = [
