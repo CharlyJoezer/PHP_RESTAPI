@@ -3,6 +3,9 @@
 namespace Backend\Controllers;
 
 use Backend\Models\Product;
+use Backend\Utils\Validator;
+use Backend\Utils\Helper;
+use Exception;
 
 class ProductController {
      public function getAllDataProduct(){
@@ -13,12 +16,29 @@ class ProductController {
      }
 
      public function insert(){
-          $request = [
-               'name' => $_POST['name'],
-               'price' => $_POST['price']
-          ];
+          Validator::validate([
+               'name' => ['required'],
+               'price' => ['required','numeric']
+          ]);
 
           $prd = new Product;
-          echo $prd->insert($request);
+          try{
+               $prd->insert([
+                    'name' => $_POST['name'],
+                    'price'=> $_POST['price']
+               ]);
+          }catch(Exception $e){
+               return Helper::response(500, [
+                    'status' => false,
+                    'code' => 500,
+                    'message' => 'Server Error 500'
+               ]);
+          }
+          
+          return Helper::response(200, [
+               'status' => true,
+               'code' => 200,
+               'message' => 'Product Create Success!'
+          ]);
      }
 }
