@@ -3,13 +3,14 @@
 namespace Backend\Config;
 use PDO;
 use Exception;
+use Backend\Utils\Helper;
 
 class Database {
      private $db_host = 'localhost';
      private $db_name = 'php_restapi';
      private $db_user = 'root';
      private $db_pass = '';
-     private $db_port = '3306';
+     private $db_port = '3308';
      private $db;
      private $stmt;
 
@@ -19,12 +20,20 @@ class Database {
                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                $this->db = $conn;
           }catch(Exception $e){
-               echo $e->getMessage();
+               echo  $e->getMessage();
           }
      }
 
      public function query($query){
-          $this->stmt = $this->db->prepare($query);
+        // try {
+            $this->stmt = $this->db->prepare($query);
+        // } catch (\Throwable $th) {
+        //     return Helper::response(500, [
+        //         'status' => false,
+        //         'code' => 500,
+        //         'message' => "SERVER ERROR 500"
+        //     ]);
+        // }
       }
       public function execute(){
           $this->stmt->execute();
