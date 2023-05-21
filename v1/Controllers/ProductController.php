@@ -11,8 +11,14 @@ class ProductController {
      public function getAllDataProduct(){
           $prd = new Product;
           $getData = $prd->select();
-          var_dump($getData);
-          die();
+          return Helper::response(200, [
+               'status' => true,
+               'code' => 200,
+               'message' => 'Get Data Product',
+               'data' => [
+                    'product' => $getData
+               ]
+          ]);
      }
 
      public function insert(){
