@@ -27,6 +27,10 @@ class Route {
                if($this->path == '/api/product/insert'){
                     Helper::Controller(new ProductController, 'insert');
                }
+          }else if($this->method == 'PATCH'){
+               if($this->path == '/api/product/update'){
+                    Helper::Controller(new ProductController, 'update');
+               }
           }else{
                $response = [
                     'message' => "Method Not Allowed",
