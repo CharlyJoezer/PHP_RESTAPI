@@ -31,15 +31,6 @@ class Route {
                if($this->path == '/api/product/update'){
                     Helper::Controller(new ProductController, 'update');
                }
-          }else{
-               $response = [
-                    'message' => "Method Not Allowed",
-                    'code' => "405"
-               ];
-               header('HTTP/1.1 405 Method Not Allowed');
-               header('Content-Type: application/json');
-               echo json_encode($response);
-               die();
           }
      }
 }
