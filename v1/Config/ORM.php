@@ -30,4 +30,25 @@ class ORM extends Database {
           $this->db->execute();
           return true;
      }
+
+     public function update(String $where, Array $data){
+          $this->connectDB();
+          unset($data['id']);
+          $strUpdtCol = '';
+          foreach($data as $key => $val){
+               if($key === array_key_last($data)){
+                    $strUpdtCol .= "$key = :$key";
+               }else{
+                    $strUpdtCol .= "$key = :$key,";
+               }
+          }          
+          $query = "UPDATE $this->table SET $strUpdtCol WHERE $where;";
+          $this->db->query($query);
+          for($i = 0; $i < count($data); $i++){
+               $key = (string)array_keys($data)[$i];
+               $this->db->bind($key, $data[$key]);
+          }
+          $this->db->execute();
+          return true;
+     }
 }
