@@ -26,13 +26,7 @@ class Validator {
 
      }
      protected function helperValidate($cond, $key){
-          $httpMethod = $_SERVER['REQUEST_METHOD'];
-          $data = [];
-          if($httpMethod == 'GET'){
-               $data = $_GET;
-          }elseif($httpMethod == 'POST'){
-               $data = $_POST;
-          }
+          $data = Request::Input();
           foreach($cond as $val){
                if('required' == $val){
                     if( empty($data[(String) $key]) ){
