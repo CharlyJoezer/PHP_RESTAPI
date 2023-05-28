@@ -5,6 +5,7 @@ namespace Backend\Controllers;
 use Backend\Models\Product;
 use Backend\Utils\Validator;
 use Backend\Utils\Helper;
+use Backend\Utils\Request;
 use Exception;
 
 class ProductController {
@@ -22,16 +23,17 @@ class ProductController {
      }
 
      public function insert(){
+          $data = Request::Input();
           Validator::validate([
                'name' => ['required'],
                'price' => ['required','numeric']
           ]);
-
+          
           $prd = new Product;
           try{
                $prd->insert([
-                    'name' => $_POST['name'],
-                    'price'=> $_POST['price']
+                    'name' => $data['name'],
+                    'price'=> $data['price']
                ]);
           }catch(Exception $e){
                return Helper::response(500, [
@@ -46,5 +48,17 @@ class ProductController {
                'code' => 200,
                'message' => 'Product Create Success!'
           ]);
+     }
+
+     public function update(){
+          $data = Request::Input();
+          $prd = new Product;
+          $prd->update("id_product = ".$data['id'], $data);
+          return Helper::response(200, [
+               'code' => 200,
+               'status' => true,
+               'message' => 'Data Succesfully Modify'
+          ]);
+
      }
 }
