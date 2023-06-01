@@ -10,7 +10,7 @@ class Database {
      private $db_name = 'php_restapi';
      private $db_user = 'root';
      private $db_pass = '';
-     private $db_port = '3308';
+     private $db_port = '3306';
      private $db;
      private $stmt;
 

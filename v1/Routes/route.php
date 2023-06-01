@@ -31,6 +31,10 @@ class Route {
                if($this->path == '/api/product/update'){
                     Helper::Controller(new ProductController, 'update');
                }
+          }else if($this->method == 'DELETE'){
+               if($this->path == '/api/product/delete'){
+                    Helper::Controller(new ProductController, 'delete');
+               }
           }
      }
 }

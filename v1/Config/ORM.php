@@ -51,4 +51,12 @@ class ORM extends Database {
           $this->db->execute();
           return true;
      }
+
+     public function delete($field, $cond ,Int $val){
+          $this->connectDB();
+          $query = "DELETE FROM product WHERE $field $cond $val";
+          $this->db->query($query);
+          $this->db->execute();
+          return true;
+     }
 }

@@ -61,4 +61,18 @@ class ProductController {
           ]);
 
      }
+
+     public function delete(){
+          $data = Request::input();
+          Validator::validate([
+               'id_product' => ['required','numeric']
+          ]);
+          $prd = new Product();
+          $prd->delete("id_product", '=' ,$data['id_product']);
+          return Helper::response(200, [
+               'code' => 200,
+               'status' => true,
+               'message' => 'Delete Success!'
+          ]);
+     }
 }
