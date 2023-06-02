@@ -14,6 +14,17 @@ class ORM extends Database {
      private function connectDB(){
           $this->db = new Database;
      }
+     
+     public function all(Array $select = null){
+          $this->connectDB();
+          if($select != null){
+               $field = implode(", ", $select);
+               $this->db->query("SELECT $field FROM $this->table");
+          }else{
+               $this->db->query("SELECT * FROM $this->table");
+          }
+          return $this->db->getAll();
+     }
 
      public function where(Array $cond){
           if(is_array($cond[0])){
