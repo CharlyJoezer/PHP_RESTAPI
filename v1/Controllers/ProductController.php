@@ -32,4 +32,24 @@ class ProductController {
 
           }
      }
+
+     public function getAll(){
+          $prd = new Product;
+          $data = $prd->all();
+          if(count($data) > 0){
+               Helper::response(200, [
+                    'code' => 200,
+                    'status' => true,
+                    'message' => 'Success, Data is found!',
+                    'data' => $data
+               ]);
+          }else{
+               Helper::response(404, [
+                    'code' => 404,
+                    'status' => false,
+                    'message' => 'Data not found!'
+               ]);
+
+          }
+     }
 }

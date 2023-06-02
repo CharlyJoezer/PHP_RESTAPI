@@ -21,7 +21,7 @@ class Route {
      public function Route(){
           if($this->method == 'GET'){
                if($this->path == '/api/product/get'){
-                    Helper::Controller(new ProductController, 'getAllDataProduct');
+                    Helper::Controller(new ProductController, 'getAll');
                }
           }else if($this->method == 'POST'){
                if($this->path == '/api/product/find'){
