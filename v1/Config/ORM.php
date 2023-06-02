@@ -19,6 +19,13 @@ class ORM extends Database {
           return $this->db->getAll();
      }
 
+     public function first($field, $opr, $val){
+          $this->connectDB();
+          $this->db->query("SELECT * FROM $this->table WHERE $field $opr :val");
+          $this->db->bind("val", (Int)$val);
+          return $this->db->getAll();
+     }
+
      public function insert($data){
           $this->connectDB();
           $query = "INSERT INTO $this->table (". (string)implode(', ', array_keys($data)) . ") VALUES (".Helper::arrayKeyToBind($data).")";
