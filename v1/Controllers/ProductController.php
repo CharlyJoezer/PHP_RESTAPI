@@ -9,9 +9,27 @@ use Backend\Utils\Request;
 use Exception;
 
 class ProductController {
-
-     public function read(){
+     public function getOneProduct(){
+          $data = Request::input();
+          Validator::validate([
+               'id' => ['required','numeric']
+          ]);
           $prd = new Product();
-          Helper::response(200, $prd->where(['price', '<', '12000'])->get());
+          $getData = $prd->where(['id_product', '=', $data['id']])->get();
+          if(count($getData) > 0){
+               Helper::response(200, [
+                    'code' => 200,
+                    'status' => true,
+                    'message' => 'Success, Data is found!',
+                    'data' => $getData
+               ]);
+          }else{
+               Helper::response(404, [
+                    'code' => 404,
+                    'status' => false,
+                    'message' => 'Data not found!'
+               ]);
+
+          }
      }
 }
