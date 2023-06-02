@@ -75,4 +75,20 @@ class ProductController {
                'message' => 'Delete Success!'
           ]);
      }
+
+     public function find(){
+          $data = Request::input();
+          Validator::validate([
+               'id' => ['required','numeric']
+          ]);
+          $prd = new Product;
+          $getData = $prd->first('id_product', '=', $data['id']);
+          return Helper::response(200, [
+               'code' => 200,
+               'status' => true,
+               'message' => 'Success, Found '.count($getData).' data',
+               'count' => count($getData),
+               'data' => $getData
+          ]);
+     }
 }
