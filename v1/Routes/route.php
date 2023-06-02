@@ -23,6 +23,9 @@ class Route {
                if($this->path == '/api/product/get'){
                     Helper::Controller(new ProductController, 'getAllDataProduct');
                }
+               if($this->path == '/api/product/find'){
+                    Helper::Controller(new ProductController, 'find');
+               }
           }else if($this->method == 'POST'){
                if($this->path == '/api/product/insert'){
                     Helper::Controller(new ProductController, 'insert');
