@@ -49,4 +49,15 @@ class ORM extends Database {
           $this->db->query("SELECT * FROM $this->table WHERE $this->where");
           return $this->db->getAll();         
      }
+
+     public function create(Array $data){
+          $this->connectDB();
+          $field = implode(", ", array_keys($data));
+          $val = Helper::arrayKeyToBind($data);
+          $this->db->query("INSERT INTO $this->table ($field) VALUES($val)");
+          foreach($data as $key => $value){
+               $this->db->bind($key, $value);
+          }
+          $this->db->execute();
+     }
 }
