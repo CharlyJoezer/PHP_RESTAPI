@@ -38,6 +38,18 @@ class Validator {
                          return $key . ' must be a number';
                     }
                }
+               if(stripos($val, 'min:') !== false){
+                    $str = substr($val, stripos($val, ':')+1);
+                    if(strlen($data[(String) $key]) < (Int)$str){
+                         return $key . " minimum $str character for correct!";
+                    }
+               }
+               if(stripos($val, 'max:') !== false){
+                    $str = substr($val, stripos($val, ':')+1);
+                    if(strlen($data[(String) $key]) > (Int)$str){
+                         return $key . " maximum $str character for correct!";
+                    }
+               }
           }
      }
 }
