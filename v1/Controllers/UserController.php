@@ -14,6 +14,11 @@ class UserController{
             'password' => ['required', 'min:5'],
             'email' => ['required']
         ]);
+        $data = [
+            'name' => $data['name'],
+            'password' => password_hash($data['password'], PASSWORD_BCRYPT),
+            'email' => $data['email']
+        ];
         $usr = new User;
         $usr->create($data);
         return Helper::response(201, [
