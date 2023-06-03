@@ -10,8 +10,8 @@ class UserController{
     public function register(){
         $data = Request::input();
         Validator::validate([
-            'name' => ['required'],
-            'password' => ['required'],
+            'name' => ['required', 'min:2'],
+            'password' => ['required', 'min:5'],
             'email' => ['required']
         ]);
         $usr = new User;
