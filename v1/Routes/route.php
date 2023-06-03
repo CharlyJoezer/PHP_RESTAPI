@@ -2,6 +2,7 @@
 
 namespace Backend\Routes;
 use Backend\Controllers\ProductController;
+use Backend\Controllers\UserController;
 use Backend\Utils\Helper;
 
 class Route {
@@ -21,14 +22,17 @@ class Route {
      public function Route(){
           if($this->method == 'GET'){
                if($this->path == '/api/product/get'){
-                    Helper::Controller(new ProductController, 'getAllDataProduct');
-               }
-               if($this->path == '/api/product/find'){
-                    Helper::Controller(new ProductController, 'find');
+                    Helper::Controller(new ProductController, 'getAll');
                }
           }else if($this->method == 'POST'){
+               if($this->path == '/api/product/find'){
+                    Helper::Controller(new ProductController, 'getOneProduct');
+               }
                if($this->path == '/api/product/insert'){
-                    Helper::Controller(new ProductController, 'insert');
+                    Helper::Controller(new ProductController, 'createProduct');
+               }
+               if($this->path == '/api/user/register'){
+                    Helper::Controller(new UserController, 'register');
                }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){

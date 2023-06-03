@@ -1,0 +1,8 @@
+URL : /api/product/get
+REQUEST : 
+
+URL : /api/product/insert
+REQUEST : name, price
+
+URL : /api/product/update
+REQUEST : id, name, price

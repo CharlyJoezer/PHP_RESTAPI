@@ -8,62 +8,56 @@ use Backend\Utils\Helper;
 class ORM extends Database {
      protected $db;
      public $table = NULL;
+     public $where,
+             $join;
 
      private function connectDB(){
           $this->db = new Database;
      }
-
-     public function select(){
+     
+     public function all(Array $select = null){
           $this->connectDB();
-          $this->db->query("SELECT * FROM ". $this->table);
-          return $this->db->getAll();
-     }
-
-     public function first($field, $opr, $val){
-          $this->connectDB();
-          $this->db->query("SELECT * FROM $this->table WHERE $field $opr :val");
-          $this->db->bind("val", (Int)$val);
-          return $this->db->getAll();
-     }
-
-     public function insert($data){
-          $this->connectDB();
-          $query = "INSERT INTO $this->table (". (string)implode(', ', array_keys($data)) . ") VALUES (".Helper::arrayKeyToBind($data).")";
-          $this->db->query($query);
-          for($i = 0; $i < count($data); $i++){
-               $key = (string)array_keys($data)[$i];
-               $this->db->bind($key, $data[$key]);
+          if($select != null){
+               $field = implode(", ", $select);
+               $this->db->query("SELECT $field FROM $this->table");
+          }else{
+               $this->db->query("SELECT * FROM $this->table");
           }
-          $this->db->execute();
-          return true;
+          return $this->db->getAll();
      }
 
-     public function update(String $where, Array $data){
-          $this->connectDB();
-          unset($data['id']);
-          $strUpdtCol = '';
-          foreach($data as $key => $val){
-               if($key === array_key_last($data)){
-                    $strUpdtCol .= "$key = :$key";
-               }else{
-                    $strUpdtCol .= "$key = :$key,";
+     public function where(Array $cond){
+          if(is_array($cond[0])){
+               $str = '';
+               foreach($cond as $key => $item){
+                    if($key != (count($cond) - 1)){
+                         $str .= $item[0].$item[1].$item[2].',';
+                    }else{
+                         $str .= $item[0].$item[1].$item[2];
+                    }
                }
-          }          
-          $query = "UPDATE $this->table SET $strUpdtCol WHERE $where;";
-          $this->db->query($query);
-          for($i = 0; $i < count($data); $i++){
-               $key = (string)array_keys($data)[$i];
-               $this->db->bind($key, $data[$key]);
+               $this->where = $str;
+          }else{
+               $str = $cond[0].$cond[1].$cond[2];
+               $this->where = $str;
           }
-          $this->db->execute();
-          return true;
+          return $this;
+     }
+     
+     public function get(){
+          $this->connectDB();
+          $this->db->query("SELECT * FROM $this->table WHERE $this->where");
+          return $this->db->getAll();         
      }
 
-     public function delete($field, $cond ,Int $val){
+     public function create(Array $data){
           $this->connectDB();
-          $query = "DELETE FROM product WHERE $field $cond $val";
-          $this->db->query($query);
+          $field = implode(", ", array_keys($data));
+          $val = Helper::arrayKeyToBind($data);
+          $this->db->query("INSERT INTO $this->table ($field) VALUES($val)");
+          foreach($data as $key => $value){
+               $this->db->bind($key, $value);
+          }
           $this->db->execute();
-          return true;
      }
 }
