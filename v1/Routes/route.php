@@ -28,7 +28,7 @@ class Route {
                     Helper::Controller(new ProductController, 'getOneProduct');
                }
                if($this->path == '/api/product/insert'){
-                    Helper::Controller(new ProductController, 'insert');
+                    Helper::Controller(new ProductController, 'createProduct');
                }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){

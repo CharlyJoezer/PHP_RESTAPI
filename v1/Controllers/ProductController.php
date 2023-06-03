@@ -52,4 +52,19 @@ class ProductController {
 
           }
      }
+
+     public function createProduct(){
+          $data = Request::input();
+          Validator::validate([
+               'name' => ['required'],
+               'price' => ['required', 'price']
+          ]);
+          $prd = new Product;
+          $prd->create($data);
+          return Helper::response(201, [
+               'code' => 201,
+               'status' => true,
+               'message' => 'Success Created Product!',
+          ]);
+     }
 }
