@@ -3,6 +3,7 @@
 namespace Backend\Routes;
 use Backend\Controllers\ProductController;
 use Backend\Controllers\UserController;
+use Backend\Controllers\AuthController;
 use Backend\Utils\Helper;
 
 class Route {
@@ -33,6 +34,9 @@ class Route {
                }
                if($this->path == '/api/user/register'){
                     Helper::Controller(new UserController, 'register');
+               }
+               if($this->path == '/api/user/auth'){
+                    Helper::Controller(new AuthController, 'login');
                }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){
