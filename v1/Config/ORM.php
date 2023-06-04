@@ -8,7 +8,7 @@ use Backend\Utils\Helper;
 class ORM extends Database {
      protected $db;
      public $table = NULL;
-     public $where,
+     public $where = ['cond' => '', 'value' => []],
              $join;
 
      private function connectDB(){
@@ -28,25 +28,29 @@ class ORM extends Database {
 
      public function where(Array $cond){
           if(is_array($cond[0])){
-               $str = '';
-               foreach($cond as $key => $item){
-                    if($key != (count($cond) - 1)){
-                         $str .= $item[0].$item[1].$item[2].',';
+               foreach($cond as $key => $val){
+                    if($key != count($cond) - 1){
+                         $this->where['cond'] .= $val[0].$val[1].':'.$val[0].' AND ';
                     }else{
-                         $str .= $item[0].$item[1].$item[2];
+                         $this->where['cond'] .= $val[0].$val[1].':'.$val[0];
                     }
+                    $this->where['value'][$val[0]] = $val[2];
                }
-               $this->where = $str;
           }else{
-               $str = $cond[0].$cond[1].$cond[2];
-               $this->where = $str;
+               $this->where['cond'] = $cond[0].$cond[1].':'.$cond[0];
+               $this->where['value'][(String)$cond[0]] = $cond[2];
           }
           return $this;
      }
      
      public function get(){
           $this->connectDB();
-          $this->db->query("SELECT * FROM $this->table WHERE $this->where");
+          $bind = $this->where['value'];
+          $query = "SELECT * FROM $this->table WHERE ".$this->where['cond'];
+          $this->db->query($query);
+          foreach($bind as $key => $val){
+               $this->db->bind($key, $val);
+          }
           return $this->db->getAll();         
      }
 
