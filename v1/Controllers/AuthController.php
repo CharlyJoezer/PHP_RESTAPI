@@ -52,4 +52,32 @@ class AuthController{
             ]);
         }
     }
+
+    public function logout(){
+        $getToken = $_SERVER['HTTP_AUTHORIZATION'];
+        $tkn = new Token;
+        $checkToken = $tkn->where(['token', '=', $getToken])->get();
+        if(count($checkToken) <= 0){
+            return Helper::response(403, [
+                'code' => 403,
+                'status' => false,
+                'message' => 'Login Required!'
+            ]);
+        }
+
+        $delete = $tkn->where(['token', '=', $getToken])->delete();
+        if($delete){
+            return Helper::response(200, [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Logout Success!'
+            ]);
+        }else{
+            return Helper::response(500, [
+                'code' => 500,
+                'status' => false,
+                'message' => 'Server Error'
+            ]);
+        }
+    }
 }

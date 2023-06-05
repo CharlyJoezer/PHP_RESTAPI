@@ -38,6 +38,9 @@ class Route {
                if($this->path == '/api/user/auth'){
                     Helper::Controller(new AuthController, 'login');
                }
+               if($this->path == '/api/user/logoutdsdssd'){
+                    Helper::Controller(new AuthController, 'logout');
+               }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){
                     Helper::Controller(new ProductController, 'update');
