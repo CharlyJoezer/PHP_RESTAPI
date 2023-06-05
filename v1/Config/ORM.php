@@ -64,4 +64,15 @@ class ORM extends Database {
           }
           $this->db->execute();
      }
+
+     public function delete(){
+          $this->connectDB();
+          $bind = $this->where['value'];
+          $query = "DELETE FROM $this->table WHERE ".$this->where['cond'];
+          $this->db->query($query);
+          foreach($bind as $key => $val){
+               $this->db->bind($key, $val);
+          }
+          return $this->db->execute();
+     }
 }
