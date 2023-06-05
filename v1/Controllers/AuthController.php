@@ -18,19 +18,20 @@ class AuthController{
         $checkUser = $usr->where([
             ['email', '=', $data['email']],
         ])->get();
-        $userNotFound = Helper::response(404, [
-            'code' => 404,
-            'status' => false,
-            'message' => 'Email atau Password Salah!'
-        ]);
+
         if(count($checkUser) <= 0){
-            return $userNotFound;
+            return Helper::response(404, [
+                'code' => 404,
+                'status' => false,
+                'message' => 'Email atau Password Salah!'
+            ]);
         }
         $checkPass = password_verify($data['password'], $checkUser[0]['password']);
+        
         if($checkPass == true){
             $token = bin2hex(random_bytes(32));
             $data = [
-                'token' => $token,
+                'token' => 'Bearer '.$token,
                 'user_id' => $checkUser[0]['id_user']  
             ];
             $tkn = new Token;
@@ -40,11 +41,15 @@ class AuthController{
                 'status' => true,
                 'message' => 'Login Success!',
                 'data' => [
-                    'token' => $token
+                    'token' => 'Bearer '.$token
                 ]
             ]);
         }else{
-            return $userNotFound;
+            return Helper::response(404, [
+                'code' => 404,
+                'status' => false,
+                'message' => 'Email atau Password Salah!'
+            ]);
         }
     }
 }
