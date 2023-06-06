@@ -9,7 +9,8 @@ class ORM extends Database {
      protected $db;
      public $table = NULL;
      public $where = ['cond' => '', 'value' => []],
-             $join;
+            $update = [''],
+            $join;
 
      private function connectDB(){
           $this->db = new Database;
@@ -71,6 +72,29 @@ class ORM extends Database {
           $query = "DELETE FROM $this->table WHERE ".$this->where['cond'];
           $this->db->query($query);
           foreach($bind as $key => $val){
+               $this->db->bind($key, $val);
+          }
+          return $this->db->execute();
+     }
+
+     public function update(Array $data){
+          $this->connectDB();
+          unset($data['id']);
+          $bind = '';
+          $val = [];
+          foreach($data as $key => $val){
+               if(end($data) == $val){
+                    $bind .= $key.'=:'.$key;
+               }else{
+                    $bind .= $key.'=:'.$key.', ';
+               }
+          }
+          $query = "UPDATE $this->table SET $bind WHERE ".$this->where['cond'];
+          $this->db->query($query);
+          foreach($data as $key => $val){
+               $this->db->bind($key, $val);
+          }
+          foreach($this->where['value'] as $key => $val){
                $this->db->bind($key, $val);
           }
           return $this->db->execute();
