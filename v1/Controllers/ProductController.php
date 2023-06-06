@@ -67,4 +67,32 @@ class ProductController {
                'message' => 'Success Created Product!',
           ]);
      }
+
+     public function update(){
+          $data = Request::input();
+          Validator::validate([
+               'name' => ['required'],
+               'price' => ['required', 'numeric'],
+               'id' => ['required', 'numeric']
+          ]);
+          $finalData = [
+               'name' => $data['name'],
+               'price' => (Int)$data['price']
+          ];
+          $prd = new Product;
+          $update = $prd->where(['id_product', '=', $data['id']])->update($finalData);
+          if($update){
+               return Helper::response(200, [
+                    'code' => 200,
+                    'status' => true,
+                    'message' => 'Success, Data is Modify',
+               ]);
+          }else{
+               return Helper::response(500, [
+                    'code' => 500,
+                    'status' => false,
+                    'message' => 'Server Error'
+               ]);
+          }
+     }
 }
