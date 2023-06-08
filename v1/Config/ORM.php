@@ -8,7 +8,7 @@ use Backend\Utils\Helper;
 class ORM extends Database {
      protected $db;
      public $table = NULL;
-     public $where = ['cond' => '', 'value' => []],
+     protected $where = ['cond' => '', 'value' => []],
             $update = [''],
             $join;
 
@@ -16,7 +16,7 @@ class ORM extends Database {
           $this->db = new Database;
      }
      
-     public function all(Array $select = null){
+     public function all(Array $select = []){
           $this->connectDB();
           if($select != null){
                $field = implode(", ", $select);
@@ -44,10 +44,15 @@ class ORM extends Database {
           return $this;
      }
      
-     public function get(){
+     public function get(Array $select = []){
           $this->connectDB();
           $bind = $this->where['value'];
-          $query = "SELECT * FROM $this->table WHERE ".$this->where['cond'];
+          if(count($select) > 0){
+               (String) $strSelect = implode(', ', $select);
+               $query = "SELECT $strSelect FROM $this->table WHERE ".$this->where['cond'];
+          }else{
+               $query = "SELECT * FROM $this->table WHERE ".$this->where['cond'];
+          }
           $this->db->query($query);
           foreach($bind as $key => $val){
                $this->db->bind($key, $val);
