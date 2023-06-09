@@ -10,7 +10,7 @@ class ORM extends Database {
      public $table = NULL;
      protected $where = ['cond' => '', 'value' => []],
             $update = [''],
-            $join;
+            $join = [];
 
      private function connectDB(){
           $this->db = new Database;
@@ -28,35 +28,46 @@ class ORM extends Database {
      }
 
      public function where(Array $cond){
+          $filter = str_replace(['.', '_'], '', $cond[0]);
           if(is_array($cond[0])){
                foreach($cond as $key => $val){
+                    $filter = str_replace(['.', '_'], '', $cond[0]);
                     if($key != count($cond) - 1){
-                         $this->where['cond'] .= $val[0].$val[1].':'.$val[0].' AND ';
+                         $this->where['cond'] .= $val[0].$val[1].':'.$filter.' AND ';
                     }else{
-                         $this->where['cond'] .= $val[0].$val[1].':'.$val[0];
+                         $this->where['cond'] .= $val[0].$val[1].':'.$filter;
                     }
-                    $this->where['value'][$val[0]] = $val[2];
+                    $this->where['value'][$filter] = $val[2];
                }
           }else{
-               $this->where['cond'] = $cond[0].$cond[1].':'.$cond[0];
-               $this->where['value'][(String)$cond[0]] = $cond[2];
+               $this->where['cond'] = $cond[0].$cond[1].':'.$filter;
+               $this->where['value'][(String)$filter] = $cond[2];
           }
           return $this;
      }
      
      public function get(Array $select = []){
           $this->connectDB();
-          $bind = $this->where['value'];
+          $where = $this->where['value'];
           if(count($select) > 0){
                (String) $strSelect = implode(', ', $select);
-               $query = "SELECT $strSelect FROM $this->table WHERE ".$this->where['cond'];
+               $query = "SELECT $strSelect FROM $this->table";
           }else{
-               $query = "SELECT * FROM $this->table WHERE ".$this->where['cond'];
+               $query = "SELECT * FROM $this->table";
           }
-          $this->db->query($query);
-          foreach($bind as $key => $val){
-               $this->db->bind($key, $val);
+          if(count($this->join) > 0){
+               $query .= ' '.$this->join['type']." JOIN ".$this->join['table']." ON ".$this->join['or'];
           }
+          if(count($where) > 0){
+               $query .= ' WHERE '.$this->where['cond'];
+               $this->db->query($query);
+               foreach($where as $key => $val){
+                    $this->db->bind($key, $val);
+               }
+          }else{
+               $this->db->query($query);
+          }
+          
           return $this->db->getAll();         
      }
 
@@ -103,5 +114,12 @@ class ORM extends Database {
                $this->db->bind($key, $val);
           }
           return $this->db->execute();
+     }
+
+     public function join(String $table, String $type, String $or){
+          $this->join['table'] = $table;
+          $this->join['type'] = $type;
+          $this->join['or'] = $or;
+          return $this;
      }
 }
