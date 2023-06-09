@@ -10,5 +10,7 @@ use Backend\Utils\Request;
 use Exception;
 
 class KeranjangController{
-
+    public function insertKeranjang(){
+        
+    }
 }
