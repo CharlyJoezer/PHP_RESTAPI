@@ -3,6 +3,7 @@
 namespace Backend\Controllers;
 
 use Backend\Models\Product;
+use Backend\Models\User;
 use Backend\Utils\Validator;
 use Backend\Utils\Helper;
 use Backend\Utils\Request;
@@ -93,6 +94,31 @@ class ProductController {
                     'status' => false,
                     'message' => 'Server Error'
                ]);
+          }
+     }
+
+     public function getUserProduct(){
+          $data = Request::input();
+          Validator::validate([
+               'id_' => ['required', 'numeric']
+          ]);
+          
+          $prd = new Product;
+          $getPrd = $prd->where(['user_id', '=', $data['id_']])->get(['id_product AS number', 'name', 'price', 'created_at']);
+          if(count($getPrd) > 0){
+               return Helper::response(200, [
+                    'code' => 200,
+                    'status' => true,
+                    'message' => 'Success, Found '.count($getPrd). ' Product',
+                    'data' => $getPrd
+               ]);
+          }else{
+               return Helper::response(404, [
+                    'code' => 404,
+                    'status' => false,
+                    'message' => 'Fail, Product is not found!',
+                    'data' => $getPrd
+               ]);  
           }
      }
 }
