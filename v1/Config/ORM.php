@@ -79,7 +79,7 @@ class ORM extends Database {
           foreach($data as $key => $value){
                $this->db->bind($key, $value);
           }
-          $this->db->execute();
+          return $this->db->execute();
      }
 
      public function delete(){
