@@ -121,4 +121,28 @@ class ProductController {
                ]);  
           }
      }
+
+     public function searchProduct(){
+          Validator::validate([
+               'search' => ['required']
+          ]);
+          $data = Request::input();
+          $prd = new Product;
+          $getData = $prd->where(['name', ' LIKE ', '%'.$data['search'].'%'])->get();
+          if(count($getData) > 0){
+               return Helper::response(200, [
+                    'status' => true,
+                    'message' => 'Found '.count($getData). ' product!',
+                    'count' => (Int)count($getData),
+                    'data' => $getData
+               ]);
+          }else{
+               return Helper::response(404, [
+                    'status' => true,
+                    'message' => 'Product is not found!',
+                    'count' => (Int)count($getData),
+                    'data' => $getData
+               ]);
+          }
+     }
 }
