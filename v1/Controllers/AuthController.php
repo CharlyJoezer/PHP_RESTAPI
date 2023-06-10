@@ -6,6 +6,7 @@ use Backend\Models\Token;
 use Backend\Utils\Validator;
 use Backend\Utils\Helper;
 use Backend\Utils\Request;
+use Backend\Utils\Token as Tokens;
 use Exception;
 class AuthController{
     public function login(){
@@ -77,6 +78,23 @@ class AuthController{
                 'code' => 500,
                 'status' => false,
                 'message' => 'Server Error'
+            ]);
+        }
+    }
+
+    public function getDataUser(){
+        $token = Tokens::tokenValidation();
+        $usr = new User;
+        $getData = $usr->where(['id_user', '=', $token['user_id']])->get(['name', 'email', 'created_at']);
+        if(count($getData) > 0){
+            return Helper::response(200, [
+                'status' => true,
+                'data' => $getData[0]
+            ]);
+        }else{
+            return Helper::response(404, [
+                'status' => false,
+                'message' => 'User not found, Try to re-login'
             ]);
         }
     }

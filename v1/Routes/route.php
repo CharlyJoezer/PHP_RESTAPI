@@ -51,6 +51,9 @@ class Route {
                if($this->path == '/api/user/logoutdsdssd'){
                     Helper::Controller(new AuthController, 'logout');
                }
+               if($this->path == '/api/user/profil'){
+                    Helper::Controller(new AuthController, 'getDataUser');
+               }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){
                     Helper::Controller(new ProductController, 'update');
