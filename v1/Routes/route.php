@@ -4,6 +4,7 @@ namespace Backend\Routes;
 use Backend\Controllers\ProductController;
 use Backend\Controllers\UserController;
 use Backend\Controllers\AuthController;
+use Backend\Controllers\KeranjangController;
 use Backend\Utils\Helper;
 
 class Route {
@@ -29,6 +30,9 @@ class Route {
                     Helper::Controller(new ProductController, 'getUserProduct');
                }
           }else if($this->method == 'POST'){
+               if($this->path == '/api/keranjang/insert'){
+                    Helper::Controller(new KeranjangController, 'insertKeranjang');
+               }
                if($this->path == '/api/product/find'){
                     Helper::Controller(new ProductController, 'getOneProduct');
                }
