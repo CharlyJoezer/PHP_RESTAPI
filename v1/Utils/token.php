@@ -11,7 +11,9 @@ class Token {
             $tknModel = new modelToken;
             $getTokenDB = $tknModel->where(['token', '=', $token])->get();
             if(count($getTokenDB) > 0){
-                return true;
+                return [
+                    'user_id' => $getTokenDB[0]['user_id']
+                ];
             }else{
                 return Helper::response(401, [
                     'code' => 401,
