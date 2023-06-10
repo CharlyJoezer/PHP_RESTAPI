@@ -6,7 +6,7 @@ use Backend\Models\Token as modelToken;
 
 class Token {
     public static function tokenValidation(){
-        $token = $_SERVER['HTTP_AUTHORIZATION'];
+        $token = (isset($_SERVER['HTTP_AUTHORIZATION'])) ? $_SERVER['HTTP_AUTHORIZATION'] : NULL;
         if(isset($token)){
             $tknModel = new modelToken;
             $getTokenDB = $tknModel->where(['token', '=', $token])->get();
