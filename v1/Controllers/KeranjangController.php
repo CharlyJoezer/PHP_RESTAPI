@@ -59,4 +59,23 @@ class KeranjangController{
             ]);
         }
     }
+
+    public function getDataKeranjangUser(){
+        $token = Tokens::tokenValidation();
+        $krj = new Keranjang;
+        $getData = $krj->where(['user_id', '=', $token['user_id']])->get();
+        if(count($getData) > 0){
+            return Helper::response(200, [
+                'status' => true,
+                'message' => 'Found '.count($getData).' product',
+                'data' => $getData
+            ]);
+        }else{
+            return Helper::response(200, [
+                'status' => true,
+                'message' => 'Found '.count($getData).' product',
+                'data' => $getData
+            ]);
+        }
+    }
 }

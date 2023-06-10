@@ -29,6 +29,9 @@ class Route {
                if($this->path == '/api/user/getproduct'){
                     Helper::Controller(new ProductController, 'getUserProduct');
                }
+               if($this->path == '/api/cart/get'){
+                    Helper::Controller(new KeranjangController, 'getDataKeranjangUser');
+               }
           }else if($this->method == 'POST'){
                if($this->path == '/api/keranjang/insert'){
                     Helper::Controller(new KeranjangController, 'insertKeranjang');
