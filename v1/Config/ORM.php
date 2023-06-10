@@ -31,7 +31,7 @@ class ORM extends Database {
           $filter = str_replace(['.', '_'], '', $cond[0]);
           if(is_array($cond[0])){
                foreach($cond as $key => $val){
-                    $filter = str_replace(['.', '_'], '', $cond[0]);
+                    $filter = str_replace(['.', '_'], '', $val[0]);
                     if($key != count($cond) - 1){
                          $this->where['cond'] .= $val[0].$val[1].':'.$filter.' AND ';
                     }else{
