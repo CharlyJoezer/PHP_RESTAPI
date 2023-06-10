@@ -48,7 +48,7 @@ class Route {
                if($this->path == '/api/user/auth'){
                     Helper::Controller(new AuthController, 'login');
                }
-               if($this->path == '/api/user/logoutdsdssd'){
+               if($this->path == '/api/user/logout'){
                     Helper::Controller(new AuthController, 'logout');
                }
                if($this->path == '/api/user/profil'){
