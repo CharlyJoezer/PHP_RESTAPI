@@ -78,4 +78,68 @@ class KeranjangController{
             ]);
         }
     }
+
+    public function updateAmountProduct(){
+        $token = Tokens::tokenValidation();
+        Validator::validate([
+            'product' => ['required', 'numeric'],
+            'operator' => ['required']
+        ]);
+        $data = Request::input();
+        $krj = new Keranjang;
+        $getData = $krj->where([
+            ['product_id', '=', $data['product']],
+            ['user_id', '=', $token['user_id']]
+        ])->get();
+        if(count($getData) > 0){
+            // CHECK IS PLUS OR MIN AMOUNT PRODUCT
+            if($data['operator'] == 'min'){
+                //CHECK the product amount is 1 
+                if($getData[0]['amount'] == 1){
+                    return Helper::response(403, [
+                        'status' => false,
+                        'message' => 'Minimum number of product is 1'
+                    ]);
+                }
+                // -------------------
+                $queryUpdate = ['amount' => (Int)$getData[0]['amount'] - 1];
+            }else if($data['operator'] == 'plus'){
+                $queryUpdate = ['amount' => (Int)$getData[0]['amount'] + 1];
+            }else{
+                // RESPONSE IF NOT 1 TRUE
+                return Helper::response(403, [
+                    'status' => false,
+                    'message' => 'Forbidden'
+                ]);
+            }
+            // ---------------
+
+            // UPDATE PRODUCT
+            $krjUpdate = new Keranjang;
+            $updateData = $krjUpdate->where([
+                ['product_id', '=', $data['product']],
+                ['user_id', '=', $token['user_id']]
+            ])->update($queryUpdate);
+            // -------------------------
+
+            // RESPONSE
+            if($updateData){
+                return Helper::response(200, [
+                    'status' => true,
+                    'message' => 'Update Success'
+                ]);
+            }else{
+                return Helper::response(500, [
+                    'status' => false,
+                    'message' => 'Server Error'
+                ]);
+            }
+        }
+
+        // RETURN Forbidden if is not user product or product not found
+        return Helper::response(403, [
+            'status' => false,
+            'message' => 'Forbidden'
+        ]);
+    }
 }

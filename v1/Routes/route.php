@@ -36,7 +36,7 @@ class Route {
                     Helper::Controller(new ProductController, 'searchProduct');
                }
           }else if($this->method == 'POST'){
-               if($this->path == '/api/keranjang/insert'){
+               if($this->path == '/api/cart/insert'){
                     Helper::Controller(new KeranjangController, 'insertKeranjang');
                }
                if($this->path == '/api/product/find'){
@@ -56,6 +56,9 @@ class Route {
                }
                if($this->path == '/api/user/profil'){
                     Helper::Controller(new AuthController, 'getDataUser');
+               }
+               if($this->path == '/api/cart/product/amount'){
+                    Helper::Controller(new KeranjangController, 'updateAmountProduct');
                }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){
