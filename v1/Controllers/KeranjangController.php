@@ -142,4 +142,41 @@ class KeranjangController{
             'message' => 'Forbidden'
         ]);
     }
+
+    public function deleteProductKeranjang(){
+        $token = Tokens::tokenValidation();
+        Validator::validate([
+            'product' => ['required', 'numeric']
+        ]);
+        $data = Request::input();
+        $krj = new Keranjang;
+        $getData = $krj->where([
+            ['product_id', '=', $data['product']],
+            ['user_id', '=', $token['user_id']]
+        ])->get();
+        if(count($getData) > 0){
+            $delete = new Keranjang;
+            $deleteAction = $delete->where([
+                ['product_id', '=', $getData[0]['product_id']],
+                ['user_id', '=', $token['user_id']]
+            ])->delete();
+            if($deleteAction){
+                return Helper::response(200, [
+                    'status' => true,
+                    'messsage' => '1 Product was deleted from the cart!'
+                ]);
+            }else{
+                return Helper::response(500, [
+                    'status' => false,
+                    'messsage' => 'SERVER ERROR!'
+                ]);
+
+            }
+        }
+        // RETURN Forbidden if is not user product or product not found
+        return Helper::response(403, [
+            'status' => false,
+            'message' => 'Forbidden'
+        ]);
+    }
 }

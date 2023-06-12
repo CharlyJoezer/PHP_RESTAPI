@@ -60,6 +60,9 @@ class Route {
                if($this->path == '/api/cart/product/amount'){
                     Helper::Controller(new KeranjangController, 'updateAmountProduct');
                }
+               if($this->path == '/api/cart/delete'){
+                    Helper::Controller(new KeranjangController, 'deleteProductKeranjang');
+               }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){
                     Helper::Controller(new ProductController, 'update');
