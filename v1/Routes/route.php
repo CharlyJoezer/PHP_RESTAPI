@@ -57,15 +57,15 @@ class Route {
                if($this->path == '/api/user/profil'){
                     Helper::Controller(new AuthController, 'getDataUser');
                }
-               if($this->path == '/api/cart/product/amount'){
-                    Helper::Controller(new KeranjangController, 'updateAmountProduct');
-               }
                if($this->path == '/api/cart/delete'){
                     Helper::Controller(new KeranjangController, 'deleteProductKeranjang');
                }
           }else if($this->method == 'PATCH'){
                if($this->path == '/api/product/update'){
                     Helper::Controller(new ProductController, 'update');
+               }
+               if($this->path == '/api/cart/product/amount'){
+                    Helper::Controller(new KeranjangController, 'updateAmountProduct');
                }
           }else if($this->method == 'DELETE'){
                if($this->path == '/api/product/delete'){
