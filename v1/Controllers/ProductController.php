@@ -60,6 +60,15 @@ class ProductController {
                'name' => ['required'],
                'price' => ['required', 'price']
           ]);
+          
+          // Validation and store image
+          $image = Helper::storeImage('image', 'product');
+          
+          $finalData = [
+               'name' => $data['name'],
+               'price' => $data['price'],
+               'path_image' => $image
+          ];
           $prd = new Product;
           $prd->create($data);
           return Helper::response(201, [

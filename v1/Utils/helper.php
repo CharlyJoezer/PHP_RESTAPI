@@ -47,11 +47,11 @@ class Helper {
           $imgLocal = $image['tmp_name'];
           $imgName = $image['name'];
           $imgExtension = pathinfo($imgName, PATHINFO_EXTENSION);
-          $pathStorage = "v1/Storage/$storage/".$storage."_".md5($imgName).time().".$imgExtension";
-          return Helper::response(200, [$pathStorage]);
+          $enkripName = $storage."_".md5($imgName).time().".$imgExtension";
+          $pathStorage = "v1/Storage/$storage/".$enkripName;
 
           if(move_uploaded_file($imgLocal, $pathStorage)){
-               return Helper::response(200, [$image]);
+               return $enkripName;
           }else{
                return Helper::response(500, [
                     'status' => false,
