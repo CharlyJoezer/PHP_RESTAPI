@@ -1,0 +1,14 @@
+DirectoryIndex index.php
+Options -Indexes
+
+RewriteEngine On
+RewriteRule ^v1$ index.php
+RewriteRule ^vendor$ index.php
+RewriteRule ^.gitignore$ index.php
+RewriteRule ^composer.json$ index.php
+RewriteRule ^composer.lock$ index.php
+RewriteRule ^api_doc.txt$ index.php
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
