@@ -1,8 +1,92 @@
-URL : /api/product/get
-REQUEST : 
 
-URL : /api/product/insert
-REQUEST : name, price
+Base URL = https://php-restapi.000webhostapp.com
 
-URL : /api/product/update
-REQUEST : id, name, price
+
+PRODUCT :   Name : Semua Data Product
+            URL : /api/product/get
+            REQUEST : 
+            METHOD : GET
+
+            Name : Mengambil data 1 Product
+            URL : /api/product/find
+            REQUEST : id (Required, numeric)
+            METHOD : POST
+
+            Name : Tambah Product
+            URL : /api/product/insert
+            REQUEST : - name (Required, String)
+                      - price (Required, Numeric)
+            METHOD : POST
+
+            Name : Update Product
+            URL : /api/product/update
+            REQUEST : - id (Required, numeric)
+                      - name (Required, String)
+                      - price (Required, numeric)
+            METHOD : PATCH
+
+            Name : Mengambil product yang dimiliki user
+            URL : /api/user/getproduct?id_=16
+            REQUEST : id_ (Required, numeric)
+            METHOD : GET
+
+            Name : Mencari product berdasarkan input dari user
+            URL : /api/product/search?search=kop
+            REQUEST : search (Required, String)
+            METHOD : GET 
+
+
+AUTH/USER : Name : Register User
+            URL : /api/user/register
+            REQUEST : - name (Required, String)
+                      - password (Required, String)
+                      - email (Required, String)
+            METHOD : POST
+
+            Name : Login User
+            URL : /api/user/auth
+            REQUEST : - email (Required, String)
+                      - password (Required, String)
+            METHOD : POST
+
+            Name : Logout User
+            URL : /api/user/logout
+            REQUEST : Bearer token login (Required, String)
+            METHOD : POST
+
+            Name : Get Data User
+            URL : /api/user/profil
+            REQUEST : Bearer token login (Required, String)
+            METHOD : POST
+
+
+KERANJANG : Name : Get Product user di keranjang
+            URL : /api/cart/get
+            REQUEST : Bearer token login (Required, String)
+            METHOD : GET
+
+            Name : Masukan Product ke keranjang
+            URL : /api/cart/insert
+            REQUEST : - Bearer token login (Required, String)
+                      - amount (Required, numeric)
+                      - product(id) (Required, numeric)
+            METHOD : POST
+
+            Name : Menambah jumlah product di keranjang
+            URL : /api/cart/product/amount
+            REQUEST : - Bearer token login (Required, String)
+                      - amount (Required, numeric)
+                      - operator (plus or min) (Required, String)
+            METHOD : PATCH
+
+            Name : Menambah jumlah product di keranjang
+            URL : /api/cart/delete
+            REQUEST : - Bearer token login (Required, String)
+                      - product (id_product) (Required, numeric)
+            METHOD : DELETE
+
+
+
+
+
+            
