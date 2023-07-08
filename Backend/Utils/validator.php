@@ -14,10 +14,10 @@ class Validator {
           }
 
           if(count($error) > 0){
-               return Helper::response(400, [
+               return Helper::response(422, [
                     'errors' => $error,
                     'message' => 'Input is not Validated',
-                    'code' => 400
+                    'code' => 422
                ]);
           }else{
                return true;
