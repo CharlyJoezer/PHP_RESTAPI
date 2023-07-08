@@ -9,7 +9,7 @@ class Validator {
                $obj = new self();
                $invalid = $obj->helperValidate($val, $key);
                if(isset($invalid)){
-                    array_push($error, [$key => $invalid]);
+                    $error[$key] = $invalid;
                }
           }
 
